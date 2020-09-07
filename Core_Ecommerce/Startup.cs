@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Infrastructure.Data;
@@ -33,13 +32,12 @@ namespace Ecommerce
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<IProductRepository, ProductRepository>(); //interface ve repository oluşturulduktan sonra eklendi
-            services.AddDbContext<StoreContext>(x => x.UseSqlite(_config.GetConnectionString("DefaultConnection")));
-            //services.AddMvc(option => option.EnableEndpointRouting = false);
             services.AddControllers();
+            services.AddDbContext<StoreContext>(x => x.UseSqlite(_config.GetConnectionString("DefaultConnection")));
+              
+            //services.AddMvc(option => option.EnableEndpointRouting = false);   
             services.AddControllersWithViews();
             services.AddRazorPages();
-
-
 
 
         }
@@ -47,27 +45,24 @@ namespace Ecommerce
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostEnvironment env)
         {
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
             else
             {
-                app.UseHsts();
+                app.UseStatusCodePages();
 
             }
+
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthorization();
-            app.UseDefaultFiles();
-            app.UseStaticFiles();
-
-            app.UseStaticFiles();
-            
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapRazorPages();
+                endpoints.MapControllers();
             });
 
 

@@ -35,5 +35,19 @@ namespace Ecommerce.Controllers
             return await repo.GetProductByIdAsync(id);
         }
 
+
+        [HttpGet("brands")]
+        public async Task<ActionResult<IReadOnlyList<ProductBrand>>> GetProductBrands()  //IReadOnlyList old. için Ok() şeklinde yazılıyor
+        {
+            return Ok(await repo.GetProductBrandsAsync());
+
+        }
+
+        [HttpGet("types")]
+        public async Task<ActionResult<IReadOnlyList<ProductBrand>>> GetProductTypes()  //IReadOnlyList old. için Ok() şeklinde yazılıyor
+        {
+            return Ok(await repo.GetProductTypesAsync());
+
+        }
     }
 }

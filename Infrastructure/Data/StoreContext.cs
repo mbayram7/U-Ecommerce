@@ -19,7 +19,6 @@ namespace Infrastructure.Data
         public DbSet<ProductType> ProductTypes { get; set; }
 
 
-     
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -27,6 +26,11 @@ namespace Infrastructure.Data
 
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
+
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    optionsBuilder.UseSqlite("Filename=UEcommerce.db");
+        //}
 
     }
 }

@@ -17,7 +17,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "Core_Ecommerce": {
+    "Ecommerce": {  //bu satır yanlış yazıldığı için iki gün çözüm aradım
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "api/",

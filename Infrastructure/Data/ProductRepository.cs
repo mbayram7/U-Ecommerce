@@ -17,16 +17,25 @@ namespace Infrastructure.Data
             this.storeContext = storeContext;
         }
 
-
-
         public async Task<Product> GetProductByIdAsync(int id)
         {
-            return await storeContext.Products.FindAsync(id);
+            return await storeContext.Products.Include(p => p.ProductType).Include(p => p.ProductBrand).FirstOrDefaultAsync(p=>p.Id == id); // bazı bilgiler farklı tablolardan geldiği için include yapıldı
         }
 
         public async Task<IReadOnlyList<Product>> GetProductsAsync()
         {
-            return await storeContext.Products.ToListAsync(); ;
+            return await storeContext.Products.Include(p=>p.ProductType).Include(p => p.ProductBrand).ToListAsync(); ;
         }
+
+        public async Task<IReadOnlyList<ProductBrand>> GetProductBrandsAsync()
+        {
+            return await storeContext.ProductBrands.ToListAsync();
+        }
+
+        public async Task<IReadOnlyList<ProductType>> GetProductTypesAsync()
+        {
+            return await storeContext.ProductTypes.ToListAsync();
+        }
+
     }
 }
