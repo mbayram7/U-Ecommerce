@@ -11,10 +11,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Core.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 
-
-namespace Core_Ecommerce
+namespace Ecommerce
 {
     public class Startup
     {
@@ -22,22 +23,29 @@ namespace Core_Ecommerce
 
         public Startup(IConfiguration config)
         {
-            
+
             _config = config;
         }
 
-        
+
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddScoped<IProductRepository, ProductRepository>(); //interface ve repository oluşturulduktan sonra eklendi
             services.AddDbContext<StoreContext>(x => x.UseSqlite(_config.GetConnectionString("DefaultConnection")));
+            //services.AddMvc(option => option.EnableEndpointRouting = false);
+            services.AddControllers();
+            services.AddControllersWithViews();
+            services.AddRazorPages();
+
+
+
 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -46,12 +54,23 @@ namespace Core_Ecommerce
             else
             {
                 app.UseHsts();
-                
+
             }
             app.UseHttpsRedirection();
+            app.UseRouting();
+            app.UseAuthorization();
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
 
-            app.UseDefaultFiles(); app.UseStaticFiles();
-            app.UseMvc();
+            app.UseStaticFiles();
+            
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapRazorPages();
+            });
+
+
         }
     }
 }

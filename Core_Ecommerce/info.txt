@@ -1,0 +1,3 @@
+﻿
+istenen path e migration yapmak;
+Add-migration -o Data/Migrations
