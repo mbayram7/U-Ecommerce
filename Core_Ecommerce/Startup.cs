@@ -13,6 +13,8 @@ using Microsoft.Extensions.Options;
 using Core.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
+using AutoMapper;
+using Ecommerce.Helpers;
 
 namespace Ecommerce
 {
@@ -32,6 +34,8 @@ namespace Ecommerce
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<IProductRepository, ProductRepository>(); //interface ve repository oluşturulduktan sonra eklendi
+            services.AddScoped(typeof(IGenericRepository<>), (typeof(GenericRepository<>)));
+            services.AddAutoMapper(typeof(MappingProfiles));
             services.AddControllers();
             services.AddDbContext<StoreContext>(x => x.UseSqlite(_config.GetConnectionString("DefaultConnection")));
               
@@ -50,14 +54,15 @@ namespace Ecommerce
             {
                 app.UseDeveloperExceptionPage();
             }
-            else
-            {
-                app.UseStatusCodePages();
+            //else
+            //{
+            //    app.UseStatusCodePages();
 
-            }
+            //}
 
             app.UseHttpsRedirection();
             app.UseRouting();
+            app.UseStaticFiles();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
