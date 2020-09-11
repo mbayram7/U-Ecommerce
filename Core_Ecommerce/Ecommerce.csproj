@@ -31,6 +31,8 @@
     <PackageReference Include="sqlite" Version="3.13.0" />
     <PackageReference Include="SQLitePCLRaw.bundle_winsqlite3" Version="2.0.4" />
     <PackageReference Include="SQLitePCLRaw.core" Version="2.0.4" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="5.5.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUi" Version="5.5.1" />
   </ItemGroup>
 
   <ItemGroup>

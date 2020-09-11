@@ -1,11 +1,11 @@
-﻿using System;
-using System.Threading.Tasks;
-using Infrastructure.Data;
+﻿using Infrastructure.Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Threading.Tasks;
 
 namespace Ecommerce
 {
@@ -28,7 +28,7 @@ namespace Ecommerce
                 {
                     var logger = loggerFactory.CreateLogger<Program>();
                     logger.LogError(ex, "an error accored during migration");
-                } 
+                }
             }
 
             host.Run();
