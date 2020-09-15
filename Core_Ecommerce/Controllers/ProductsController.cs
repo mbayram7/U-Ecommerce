@@ -4,6 +4,7 @@ using Core.Interfaces;
 using Core.Spesification;
 using Ecommerce.DTOs;
 using Ecommerce.Errors;
+using Ecommerce.Helpers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -11,8 +12,6 @@ using System.Threading.Tasks;
 
 namespace Ecommerce.Controllers
 {
-
-
     public class ProductsController : BaseApiController
     {
         private readonly IGenericRepository<Product> productRepo;
@@ -31,15 +30,21 @@ namespace Ecommerce.Controllers
 
 
         [HttpGet]
-        public async Task<ActionResult<IReadOnlyList<ProductToReturnDto>>> GetProducts()
+        public async Task<ActionResult<Pagination<ProductToReturnDto>>> GetProducts([FromQuery]ProductSpecParams productParams) //sort olayı query string olarak yapıldığı için fromquery eklendi
         {
-            var spec = new ProductsWithTypesAndBrandsSpecification();
+            var spec = new ProductsWithTypesAndBrandsSpecification(productParams);
+            var countSpec = new ProductWithFiltersForCountSpecification(productParams);
 
+
+            var totalItems = await productRepo.CountAsync(countSpec);
             var products = await productRepo.ListAsync(spec);
+            var data = mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductToReturnDto>>(products);
 
 
-            return Ok(mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductToReturnDto>>(products));
+            return Ok(new Pagination<ProductToReturnDto>(productParams.PageIndex, productParams.PageSize, totalItems, data));
         }
+
+
 
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
