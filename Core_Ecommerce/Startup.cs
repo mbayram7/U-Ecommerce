@@ -45,32 +45,23 @@ namespace Ecommerce
                     policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200");
                 });
             });
-            
-
-
-
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostEnvironment env)
         {
-
             app.UseMiddleware<ExceptionMiddleware>();
             //else
             //{
             //    app.UseStatusCodePages();
 
             //}
-
             app.UseStatusCodePagesWithReExecute("/errors/{0}");
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseStaticFiles();
             app.UseCors("CorsPolicy");
             app.UseAuthorization();
-
-
 
             app.UseEndpoints(endpoints =>
             {
